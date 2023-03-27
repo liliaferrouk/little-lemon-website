@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 function BookingForm(props) {
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
     const [numGuest, setNumGuest] = useState(1);
     const [occasion, setOccasion] = useState('Birthday');
+    const [formValid,setFormValid] = useState(false)
 
 
 
@@ -13,7 +14,13 @@ function BookingForm(props) {
         console.log({ date, time, numGuest, occasion })
     }
 
-    
+    function handleInputChange(){
+        setFormValid(date !=="" && time !=="" && numGuest >= 1 && numGuest <= 10)
+    }
+
+    useEffect(()=>{
+        handleInputChange();
+    },[date,time,numGuest])
 
     return (
         <form className='booking-form' onSubmit={hundleSubmit}>
@@ -46,7 +53,7 @@ function BookingForm(props) {
                     <option value="Anniversary">Anniversary</option>
                 </select>
             </label>
-            <button type='submit' className="submit-button">Submit Reservation</button>
+            <button aria-label="On Click" type='submit' className="submit-button">Submit Reservation</button>
         </form>
     )
 }
