@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
+import BookingForm from './BookingForm'
+import "./BookingPage.css"
 
-function BookingPage() {
+function BookingPage(props) {
   return (
-    <div>BookingPage</div>
+    <div>
+      <BookingForm times={props.times}/>
+    </div>
   )
 }
 
