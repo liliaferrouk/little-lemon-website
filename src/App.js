@@ -1,31 +1,39 @@
-import './App.css';
-import React, { useState } from 'react';
-import Header from './Header';
-import Footer from './Footer';
-import HomePage from './HomePage';
-import BookingPage from './BookingPage';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Header from "./layouts/Header";
+import Footer from "./layouts/Footer";
+import Home from "./pages/Home";
+import Booking from "./pages/Booking";
+import BookingConfirmation from "./pages/BookingConfirmation";
+import { useFormContext } from "./store/FormContext";
+import "./App.css";
 
 function App() {
-  const [availableTimes, setAvailablTimes] = useState([
-    '10:00 AM',
-    '12:00 PM',
-    '02:00 PM',
-    '04:00 PM',
-    '06:00 PM',
-    '08:00 PM',
-])
+  const { form } = useFormContext();
+
+  const formProps = {
+    name: form.name,
+    date: form.date,
+    time: form.time,
+    guests: form.numberOfGuests,
+    occasion: form.occasion,
+    table: form.tablePreference,
+    request: form.message,
+  };
+
   return (
-    <body>
+    <BrowserRouter>
       <Header/>
-      <Router>
-        <Routes>
-        <Route path="/" element={<HomePage/>}/>
-        <Route path="/booking" element={<BookingPage times={availableTimes} />}/>
-        </Routes>
-      </Router>
-      <Footer/>
-    </body>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/booking" element={<Booking />} />
+        <Route
+          path="/booking-confirmation"
+          element={<BookingConfirmation {...formProps} />}
+        />
+      </Routes>
+      <Footer />
+    </BrowserRouter>
   );
 }
 
